@@ -1,0 +1,87 @@
+.client-primary-container{
+    background: linear-gradient(90deg, rgb(23, 4, 104) 0%, rgb(129, 134, 150) 100%);
+    margin-top: 20px;
+    padding: 80px;
+    padding-top: 160px;
+    padding-bottom: 160px;
+    }
+
+    .client-secondary-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    max-width: 1500px;
+    background: linear-gradient(90deg, rgb(31, 10, 221) 0%, rgb(236, 230, 230)100%);
+    }
+ 
+    h1 {
+    font-size: 2.5rem;
+    margin: 10px;
+    }
+
+    p {
+    font-size: 2.5rem;
+    margin: 10px;
+    }
+
+    :root{
+    --primary : rgb(55, 53, 177);
+    }
+
+    button{
+        margin: 20px;
+        padding:8px 20px;
+        border-radius: 2px;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        background-color: var(--primary);
+        color: #080808ea;
+        border: 1px solid var(--primary);
+        transition: all 0.3s ease-out;
+        font-size: 2.5rem;
+     
+        }
+
+        #lap-button{
+            font-size: 2.0rem;
+            padding:5px 20px;
+           }
+           
+        button:hover {
+        background: #fff;
+        color: #242424;
+        transition: all 0.3s ease-out;    
+        }
+
+ @media screen and (max-width: 960px) {
+    .client-primary-container{
+        padding: 20px;
+        padding-top: 180px;
+        padding-bottom: 180px;
+        }
+    .client-secondary-container{
+    height: 20vh;
+    }
+
+    h1 {
+    font-size: 1.5rem;
+    margin: 10px;
+    }
+    
+    p {
+    font-size: 1.5rem;
+    margin: 10px;
+    }
+        
+    button{
+    margin: 20px;
+    font-size: 1.5rem;
+    }
+
+    #lap-button{
+        font-size: 1.0rem;
+       }
+    
+}  
