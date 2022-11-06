@@ -6,10 +6,13 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 function LoanApplicationModal() {
 const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
+
+
 return (
 <>
 <button id='lap-button' onClick={handleShow}>Apply For Loan </button>
@@ -38,7 +41,11 @@ return (
  );
 }
 
+console.log(localStorage.getItem('username'))
+const y =localStorage.getItem('id')
+console.log(y)
 export default function ClientLoginSuccess(){
+
 return (
 <> 
 <div className='client-primary-container'>
@@ -48,6 +55,7 @@ return (
 <LoanApplicationModal/>
 </div>
 </div>
+
 </>
 );
 }
