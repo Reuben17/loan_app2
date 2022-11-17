@@ -1,7 +1,7 @@
 import React from 'react';
-import validateInfo from '../Templates/validateInfo';
-import useForm from '../Templates/useForm';
-import '../Templates/Form.css';
+import validateInfo from '../../Templates/validateInfo';
+import useForm from '../../Templates/useForm';
+import '../../Templates/Form.css';
 import { Link } from 'react-router-dom';
 
 const FormSignup = ({ submitForm }) => {

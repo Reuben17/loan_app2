@@ -1,7 +1,7 @@
 import React from 'react'
-import validateInfoLogin from '../Templates/validateInfoLogin';
-import useFormLogin from '../Templates/useFormLogin';
-import '../Templates/Form.css';
+import validateInfoLogin from '../../Templates/validateInfoLogin';
+import useFormLogin from '../../Templates/useFormLogin';
+import '../../Templates/Form.css';
 import {Link} from 'react-router-dom';
 
 

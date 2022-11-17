@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import * as React from 'react';
-import {SelectChangeEvent} from '@mui/material/Select';
 
 const useFormClient = (callback, validate) => {
 
@@ -18,15 +16,11 @@ const useFormClient = (callback, validate) => {
     loanPurpose:'',
     images:'',
     accountNo:'',
-    interest:'',
-    lossGivenDefault:'',
-    default:'',
-    repayed:'',
-    status:'',
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [status,setStatus]=useState('');
 
   {/* To allow changing of values in the form*/}
   const handleChange = e => {
@@ -48,11 +42,6 @@ const useFormClient = (callback, validate) => {
     console.log(values);
 
 
-    values.interest=1
-    values.lossGivenDefault=1
-    values.default=1
-    values.status=1
-    values.repayed=1
     /*Register loan details using the set values*/
     /*After loan details have been created,clear the set values*/
     const formData = new FormData();
@@ -62,11 +51,6 @@ const useFormClient = (callback, validate) => {
     formData.append("loanPurpose", values.loanPurpose);
     formData.append("images", values.images,values.images.name);
     formData.append("accountNo", values.accountNo);
-    formData.append("interest", values.interest);
-    formData.append("lossGivenDefault", values.lossGivenDefault);
-    formData.append("default", values.default);
-    formData.append("repayed", values.repayed);
-    formData.append("status", values.status);
 
     var url = 'http://127.0.0.1:8000/loan/apicreate/'
     
@@ -83,11 +67,6 @@ const useFormClient = (callback, validate) => {
        loanPurpose:'',
        images:'',
        accountNo:'',
-       interest:'',
-       lossGivenDefault:'',
-       default:'',
-       repayed:'',
-       status:'',
       });
     }).catch(function(error){
       console.log('ERROR:', error)
@@ -104,8 +83,19 @@ const useFormClient = (callback, validate) => {
     [errors]
   );
 
+  const fetchStatus=()=>(
+    fetch(`http://127.0.0.1:8000/loan/apistatus/${localStorage.getItem("accountNo")}`)
+    .then(response => response.json())
+    .then(data =>{
+      setStatus(data.status) 
+    }
+    )
+  );
+ 
+  
+
   return {setValues,handleChange, handleSubmit, values, errors ,
-   files,setFiles,handleFiles};
+   files,setFiles,handleFiles,status,fetchStatus};
 };
 
 

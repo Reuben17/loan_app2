@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../Templates/Form.css';
+import '../../Templates/Form.css';
 
 const FormSuccessLogin = () => {
   return (

@@ -50,7 +50,11 @@ const useFormLogin = (callback, validateInfoLogin) => {
       localStorage.setItem('username',data.username)
       localStorage.setItem('id',data.id)
       localStorage.setItem('accountNo',data.accountNo)
-      if(data.token){
+      localStorage.setItem('token',data.token)
+      localStorage.setItem('role',data.role)
+
+      let token =localStorage.getItem('token')  
+      if(token){
         if(data.role ==='client'){
         navigate('/successful-clientlogin');
         } else if(data.role==='underwriter'){

@@ -12,6 +12,12 @@ import useFormClient from './useFormClient';
 import validate from './validateInfoClient';
 import { Box } from '@mui/material';
 
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
 import FileUpload from "react-material-file-upload";
 import Modal from '@mui/material/Modal';
 
@@ -37,7 +43,7 @@ const ClientForm = ({ submitForm }) =>{
   
   //Form validation
   const {setValues,handleChange, handleSubmit, values, errors,
-  files,handleFiles,setFiles,changeFiles } = useFormClient(
+  files,handleFiles,setFiles,changeFiles,status,fetchStatus } = useFormClient(
     submitForm,
     validate
   );
@@ -46,11 +52,50 @@ const ClientForm = ({ submitForm }) =>{
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+  
+  const [dialogopen, setDialogopen] = React.useState(false);
 
+  const handledialogopen= () => {
+    setDialogopen(true);
+    fetchStatus()
+  };
+
+  const handledialogClose = () => {
+    setDialogopen(false);
+  };
+
+
+  const buttons = [
+    <Button key="one" onClick={handleOpen}>APPLICATION FORM</Button>,
+    <Button key="two" onClick={handledialogopen}>LOAN STATUS</Button>,
+  ];
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+       {/* added this button group*/}
+       <ButtonGroup color="secondary" variant="contained" size="large" aria-label="medium secondary button group">
+          {buttons}
+        </ButtonGroup>
+
+        <Dialog
+        open={dialogopen}
+        onClose={handledialogClose}
+        //TransitionComponent={Transition}
+        keepMounted
+        aria-describedby="alert-dialog-slide-description"
+        
+        >
+              <DialogTitle>Loan status</DialogTitle>
+              <DialogContent>
+                  Your loan application is {status}
+              </DialogContent>
+
+        </Dialog>
+
+   
 
       <Modal
         open={open}
