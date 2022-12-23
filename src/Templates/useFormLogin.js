@@ -55,13 +55,13 @@ const useFormLogin = (callback, validateInfoLogin) => {
 
       let token =localStorage.getItem('token')  
       if(token){
-        if(data.role ==='client'){
+        if(data.role ==='underwriter'){
         navigate('/successful-clientlogin');
         } else if(data.role==='underwriter'){
-          navigate('/successful-underwriterlogin');
+          navigate('/successful-clientlogin');
         }
         else if(data.role==='admin'){
-          window.location.href = 'http://localhost:8000/admin';
+          window.location.href = 'http://localhost:8000/admin/';
         }
       } else{
         navigate('/');  

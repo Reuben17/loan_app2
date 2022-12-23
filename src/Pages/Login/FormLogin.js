@@ -3,6 +3,7 @@ import validateInfoLogin from '../../Templates/validateInfoLogin';
 import useFormLogin from '../../Templates/useFormLogin';
 import '../../Templates/Form.css';
 import {Link} from 'react-router-dom';
+import { margin } from '@mui/system';
 
 
 const FormLogin= ({submitForm}) => {
@@ -13,6 +14,11 @@ const FormLogin= ({submitForm}) => {
         <div className='form-content-right'>
         <form onSubmit={handleSubmitLogin} className='form' noValidate>
             {/*username form input */}
+            <p className='form-label'
+            style={{marginBottom: '40px',fontSize:'1.4rem'}}
+            >
+            Welcome to the Loan Application System
+            </p>
             <div className='form-inputs'>
             <label className='form-label'>Username</label>
             <input
@@ -41,11 +47,7 @@ const FormLogin= ({submitForm}) => {
             <button className='form-input-btn' type='submit'>
             Login
              </button>
-            <span className='form-input-login'>
-                Don't have an account ? Signup  
-                <Link to="/register"> here</Link>
-               
-            </span>
+             <br></br>
             <a href='http://localhost:8000/admin'>
                 Admin Login</a>
 

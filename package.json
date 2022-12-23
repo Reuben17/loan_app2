@@ -1,5 +1,5 @@
 {
-  "name": "loan_app",
+  "name": "loan_app2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +13,8 @@
     "axios": "^1.1.3",
     "bootstrap": "^5.2.0",
     "i": "^0.3.7",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.25",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",

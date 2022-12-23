@@ -3,31 +3,25 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
-import './Underwriter.css';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import Button from 'react-bootstrap/Button';
+import './LoanDetails.css';
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 
-
-class Underwriter extends React.Component{
+class LoanDetails extends React.Component{
 // Class constructor used to declare the state and bind functions
   constructor(props){
     super(props);
       this.state = {
         loanDetails:[],
       }
-      this.renderTooltip = this.renderTooltip.bind(this)
       this.fetchTasks = this.fetchTasks.bind(this)
-      this.loanClick = this.loanClick.bind(this)
       this.authentication = this.authentication.bind(this)
       this.tokenDestroy =this.tokenDestroy.bind(this)
+      this.download=this.download.bind(this)
   };
-// Guides the user (underwriter) on where to click
-  renderTooltip = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      Click on Loan Number for more 
-    </Tooltip>
-  );
+
 // Loads Loan Details on page load
   componentWillMount(){
     this.fetchTasks()
@@ -44,14 +38,6 @@ class Underwriter extends React.Component{
       
       )
   }
-// Sets loanId and accountNo, and loads an individual's loan details
-  loanClick(id,accountNo){
-  localStorage.setItem('loanId',id)
-  localStorage.setItem('loanAccountNo',accountNo)
-  fetch(`http://127.0.0.1:8000/loan/apiupdatedefault/${localStorage.getItem("loanId")}/${localStorage.getItem("loanAccountNo")}`)
-  window.location.href="http://localhost:3000/underwriter-process"
-  }
-
   authentication(){
     let token = localStorage.getItem('token')
     /*let role = localStorage.getItem('role') */
@@ -64,9 +50,25 @@ class Underwriter extends React.Component{
     localStorage.removeItem('token')
       }
 
+download(){
+ var detail =this.state.loanDetails
+ var doc = new jsPDF() 
+
+autoTable(doc, {
+  headStyles: { fillColor: [10, 107, 192] },
+  head: [['Loan Id', 'Client Account Number', 'Amount','Interest','Loan Duration(In Months)',
+  'Monthly Payment','Debt To Income Ratio','Loss Given Default','Verdict']],
+  body: 
+    detail.map(object => {
+      return [object.id,object.clientAccountNo,object.amount,
+      object.interest,object.loanDuration,object.monthlyPayment,
+    object.debtToIncomeRatio,object.lossGivenDefault,object.verdict];}),  
+})
+doc.save('Loan Details.pdf')
+}
+
   render(){
     var loanDetails= this.state.loanDetails
-    var self = this
     return(
       <div>
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -74,9 +76,9 @@ class Underwriter extends React.Component{
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                <Navbar.Text >
-                  Welcome <span>{localStorage.getItem("username")}</span>
-                </Navbar.Text>
+                <Nav.Link href="/successful-clientlogin" >
+                  Dashboard
+                </Nav.Link>
                 </Nav>
                 <Nav>
                   <Nav.Link  href="/" onClick={()=>this.tokenDestroy()}>
@@ -86,28 +88,29 @@ class Underwriter extends React.Component{
               </Navbar.Collapse>
             </Container>
           </Navbar>
+          <button 
+          style={{float: "right",marginTop: "10px",marginRight:"125px"}}
+          type="button"
+          class="btn btn-danger"
+          onClick={()=>this.download()}
+          >Download Loan Details</button>
           <Container className='loantable'>
             <h3>Loan Application Requests</h3>
           <Table striped bordered hover >
             <thead>
               <tr>
-                <th>#</th>
-                <th>Account no</th>
+              <th>Loan ID</th>
+                <th>Client Account No</th>
                 <th>Amount</th>
                 <th>Interest</th>
                 <th>Loan Duration(In Months) </th>
                 <th>Monthly Payment </th>
-                <th>Loan Purpose </th>
+                <th>Debt To Income Ratio </th>
                 <th>Loss Given Default </th>
-                <th>Status </th>
+                <th>Verdict </th>
 
               </tr>
             </thead>
-            <OverlayTrigger
-                placement="top"
-                delay={{ show: 250, hide: 400 }}
-                overlay={this.renderTooltip}
-              >
             <tbody>
               <tr>
               <td>
@@ -115,99 +118,70 @@ class Underwriter extends React.Component{
               details array into the laon application table.
               The filter sets the values only to appear when the 
               status is "pending"*/}
-              {loanDetails
-              .filter(loanDetails=>{
-              return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
-                          <div key={index} 
-                          onClick={()=>self.loanClick(loanDetails.id,loanDetails.accountNo)}>
+                          <div key={index} >
                           <span>{loanDetails.id}</span>
                           </div>)})}             
               </td>
               <td>
-              {loanDetails
-              .filter(loanDetails=>{
-              return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
                           <div key={index}>
-                          <span>{loanDetails.accountNo}</span>
+                          <span>{loanDetails.clientAccountNo}</span>
                           </div>)})}
               </td>
               <td>
-              {loanDetails
-              .filter(loanDetails=>{
-                return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
                           <div key={index}>
                           <span>{loanDetails.amount}</span>
                           </div>)})}
               </td>
               <td>
-              {loanDetails
-              .filter(loanDetails=>{
-                return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
                           <div key={index}>
                           <span>{loanDetails.interest}</span>
                           </div>)})}
               </td>
               <td>
-              {loanDetails
-              .filter(loanDetails=>{
-                return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
                           <div key={index}>
                           <span>{loanDetails.loanDuration}</span>
                           </div>)})}
               </td>
               <td>
-              {loanDetails
-              .filter(loanDetails=>{
-                return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
                           <div key={index}>
                           <span>{loanDetails.monthlyPayment}</span>
                           </div>)})}
               </td>
               <td>
-              {loanDetails
-              .filter(loanDetails=>{
-                return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
                           <div key={index}>
-                          <span>{loanDetails.loanPurpose}</span>
+                          <span>{loanDetails.debtToIncomeRatio}</span>
                           </div>)})}
               </td>
               <td>
-              {loanDetails
-              .filter(loanDetails=>{
-                return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
                           <div key={index}>
                           <span>{loanDetails.lossGivenDefault}</span>
                           </div>)})}
               </td>
               <td>
-              {loanDetails
-              .filter(loanDetails=>{
-                return loanDetails.status==='pending';})
-              .map(function(loanDetails, index){
+              {loanDetails.map(function(loanDetails, index){
                       return(
                           <div key={index}>
-                          <span>{loanDetails.status}</span>
+                          <span>{loanDetails.verdict}</span>
                           </div>)})}
               </td>
               </tr>
             </tbody>
-            </OverlayTrigger>
           </Table>
           </Container>
 
@@ -215,4 +189,4 @@ class Underwriter extends React.Component{
     );
   }
 }
-export default Underwriter;
+export default LoanDetails;

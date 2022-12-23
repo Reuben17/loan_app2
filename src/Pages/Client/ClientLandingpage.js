@@ -22,7 +22,7 @@ const ClientLandingpage = () => {
 
 
   function submitForm() {
-  //  setIsSubmitted(true);
+    setIsSubmitted(true);
   }
   return (
       <div >
